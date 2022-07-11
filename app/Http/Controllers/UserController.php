@@ -52,9 +52,9 @@ class UserController extends Controller
 		{
 			$encodedUrl = $url.urlencode(base64_encode($user->id."~".$user->email));
 			
-			$subject = "Fuze Financial: Recover Your Password";
+			$subject = 'Fuze Financial: Recover Your Password';
 			
-			$message = "Dear ".$user->name."<br/><br/>";
+			$message = 'Dear '.$user->name.'<br/><br/>';
 			$message.= '<span style="font-size: 12px; line-height: 1.5; color: #333333;">';
 			$message.= 'We have sent you this email in response to your request to recover the password of your Fuze Financial account.';
 			$message.= '<br/><br/>';
@@ -202,12 +202,12 @@ class UserController extends Controller
 			if($saved)
 			{
 				$success = true;
-				$msg = "Account information updated successfully.";
+				$msg = 'Account information updated successfully.';
 			}
 			else
 			{
 				$success = false;
-				$msg = "Account information could not be updated.";
+				$msg = 'Account information could not be updated.';
 			}		
 		}
 		
@@ -270,9 +270,9 @@ class UserController extends Controller
 			
 			if(!$checkUserExists)
 			{
-				$smsRequestForRating = "Thank you for using ".trim($request->facility_name).". How would you rate your experience out of 5 (5 is best service)?";
+				$smsRequestForRating = 'Thank you for using '.trim($request->facility_name).'. How would you rate your experience out of 5 (5 is best service)?';
 				
-				$smsBelowThresholdRating = "We apologize you had a bad experience and want to make it up to you. A representative will be contacting you shortly.";
+				$smsBelowThresholdRating = 'We apologize you had a bad experience and want to make it up to you. A representative will be contacting you shortly.';
 				
 				// Create short URL of Yelp
 				$yelpReviewUrl	= $request->yelp_review_url;
@@ -409,7 +409,7 @@ class UserController extends Controller
 					if($saved)
 					{					
 						if(!isset($request->submit_for)) {
-							$subject = "Welcome to Fuze Financial";
+							$subject = 'Welcome to Fuze Financial';
 							
 							$message = "Dear ".$user->name.",<br/><br/>";
 							$message.= '<span style="font-size: 12px; line-height: 1.5; color: #333333;">';
@@ -818,18 +818,18 @@ class UserController extends Controller
 				}
 				
 				$success = true;
-				$msg = "Merchant account updated successfully.";
+				$msg = 'Merchant account updated successfully.';
 			}
 			else
 			{
 				$success = false;
-				$msg = "Merchant account could not be updated.";
+				$msg = 'Merchant account could not be updated.';
 			}		
 		}
 		else
 		{
 			$success = false;
-			$msg = "Please fill all the required fields.";
+			$msg = 'Please fill all the required fields.';
 		}
 		
 		return response()->json(['success' => $success, 'msg'=>$msg], 200);
@@ -859,8 +859,8 @@ class UserController extends Controller
 		{			
 			if(!empty($user->staff_id) && ($user->user_type ==2) && ($userStatus == 2)) {
 				$url 	= config('app.api_url');
-				$subject = "Welcome to Fuze Financial";
-				$message = "Dear ".$user->name.",<br/><br/>";
+				$subject = 'Welcome to Fuze Financial';
+				$message = 'Dear ".$user->name.",<br/><br/>';
 				$message.= '<span style="font-size: 12px; line-height: 1.5; color: #333333;">';
 				$message.= 'Your Fuze Financial Merchant Account has been created. Below are the login credentials to access your account:';
 				$message.= '<br/><br/>';
@@ -883,12 +883,12 @@ class UserController extends Controller
 				$emailMsg 	= User::sendMail($params);	
 			}
 			$success 	= true;
-			$msg		= "Merchant {$statusMsg} successfully.";
+			$msg		= 'Merchant {$statusMsg} successfully.';
         } 
 		else 
 		{
 			$success = false;
-			$msg		= "Merchant could not be {$statusMsg}.";
+			$msg		= 'Merchant could not be {$statusMsg}.';
         }
 		
 		return response()->json(['success' => $success, 'msg'=>$msg], 200);
@@ -912,12 +912,12 @@ class UserController extends Controller
         if($update) 
 		{				
 			$success 	= true;
-			$msg		= "Merchant deleted successfully.";
+			$msg		= 'Merchant deleted successfully.';
         } 
 		else 
 		{
 			$success = false;
-			$msg		= "Merchant could not be deleted.";
+			$msg		= 'Merchant could not be deleted.';
         }
 		
 		return response()->json(['success' => $success, 'msg'=>$msg], 200);
@@ -1018,9 +1018,9 @@ class UserController extends Controller
 		$userDetail = User::select('name', 'email')->where('id', trim($userId))->first();
 		
 		$url 	 = config('app.api_url');
-		$subject = "Welcome to Fuze Financial";
+		$subject = 'Welcome to Fuze Financial';
 		
-		$message = "Dear ".$userDetail->name."<br/><br/>";
+		$message = 'Dear ".$userDetail->name."<br/><br/>';
 		$message.= '<span style="font-size: 12px; line-height: 1.5; color: #333333;">';
 		$message.= 'Your Fuze Financial Merchant Account has been created. Below are the login credentials to access your account:';
 		$message.= '<br/><br/>';
