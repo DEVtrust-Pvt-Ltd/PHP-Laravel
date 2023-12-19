@@ -1,0 +1,71 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+@import '~@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.css';
+
+@import '~select2/dist/css/select2.css';
+
+@import "node_modules/font-awesome/scss/font-awesome.scss";
+
+.navbar-brand {
+    background-image: url("/img/logo_tiny.png");
+    //background-image: url("/img/logo.png");
+    background-repeat: no-repeat;
+    padding-left: 50px;
+}
+
+.mx-input-wrapper {
+    margin-right: 35px !important;
+}
+.mx-input-wrapper > input {
+    padding: 21px !important;
+}
+.multiselect__content-wrapper{
+    width: 100% !important;
+}
+.form-steps{
+    display: block;
+    background: #ddd;
+    padding: 8px 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-top: 10px;
+    
+  }
+  .step-childs{
+    display: inline-block;
+    width: 32%;
+    padding-left: 36px;
+    box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  .steps{
+    background: #fff;
+    border-radius: 50%;
+    padding:  4px 8px;
+    color: #000;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+  }
+  .active-v{
+    background: #000 !important;
+    color: #fff !important;
+    font-weight: 800;
+    border: none;
+  }
+  .font-bold{
+      font-weight: 800;
+  }
+  .filter-box{
+    padding: 0px 17px;
+  }
+
+
+
