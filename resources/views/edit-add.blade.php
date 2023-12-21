@@ -39,16 +39,6 @@
 
                         <div class="panel-body">
 
-                            <!-- @if (count($errors) > 0)
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif -->
-
                             <!-- Adding / Editing -->
                             @php
                                 $dataTypeRows = $dataType->{($edit ? 'editRows' : 'addRows' )};
@@ -78,7 +68,7 @@
                                     @elseif (isset($row->details->view))
                                         @include($row->details->view, ['row' => $row, 'dataType' => $dataType, 'dataTypeContent' => $dataTypeContent, 'content' => $dataTypeContent->{$row->field}, 'action' => ($edit ? 'edit' : 'add'), 'view' => ($edit ? 'edit' : 'add'), 'options' => $row->details])
                                     @elseif ($row->type == 'relationship')
-                                        <!-- @include('voyager::formfields.relationship', ['options' => $row->details])   -->
+                                       
                                         @include('voyager::formfields.relationshipmodify', ['options' => $row->details])
                                         
                                     @else
@@ -138,6 +128,7 @@
     </div>
     <!-- End Delete File Modal -->
 @stop
+
 
 @section('javascript')
 
@@ -227,8 +218,7 @@
                 completionDateTime.setSeconds(completionDateTime.getSeconds() - effortSecondsNum);
 
                 // Display the result
-                // const resultDate = completionDateTime.toLocaleDateString();
-                // const resultTime = completionDateTime.toLocaleTimeString();
+                
                 const resultDate = completionDateTime.toISOString().slice(0, 19).replace("T", " ");
                 resultInput.value = `${resultDate}`;
                 resultInput.setAttribute('value', `${resultDate}`);

@@ -147,6 +147,7 @@ class PostSettingsController extends Controller
      */
     public function delete($id)
     {
+
         // Check permission
         $this->authorize('delete', post::model('Setting'));
 
@@ -189,7 +190,6 @@ class PostSettingsController extends Controller
             'message'    => __('post::settings.already_at_top'),
             'alert-type' => 'error',
         ];
-
         // Check if there is a previous setting
         if (isset($previousSetting->order)) {
             $setting->order = $previousSetting->order;
@@ -233,7 +233,6 @@ class PostSettingsController extends Controller
             $setting->value = '';
             $setting->save();
         }
-
         // Flash the active tab and return with success message
         request()->session()->flash('setting_tab', $setting->group);
         return back()->with([
