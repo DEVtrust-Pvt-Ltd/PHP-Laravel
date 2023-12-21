@@ -7,6 +7,7 @@
         <h1 class="page-title">
             <i class="{{ $dataType->icon }}"></i> {{ $dataType->getTranslatedAttribute('display_name_plural') }}
         </h1>
+
         @can('add', app($dataType->model_name))
             <a href="{{ route('voyager.'.$dataType->slug.'.create') }}" class="btn btn-success btn-add-new">
                 <i class="voyager-plus"></i> <span>{{ __('voyager::generic.add_new') }}</span>
@@ -40,6 +41,7 @@
         @include('voyager::multilingual.language-selector')
     </div>
 @stop
+
 
 @section('content')
     <div class="page-content browse container-fluid">
@@ -302,6 +304,8 @@
         </div>
     </div>
 
+
+
     {{-- Single delete modal --}}
     <div class="modal modal-danger fade" tabindex="-1" id="delete_modal" role="dialog">
         <div class="modal-dialog">
@@ -322,6 +326,7 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 @stop
+
 
 @section('css')
 @if(!$dataType->server_side && config('dashboard.data_tables.responsive'))
