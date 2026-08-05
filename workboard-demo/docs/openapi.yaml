@@ -1,0 +1,162 @@
+openapi: 3.0.3
+info:
+  title: WorkBoard API
+  version: v1
+  description: Versioned JSON API for the WorkBoard Laravel and Vue demo.
+servers:
+  - url: /api/v1
+paths:
+  /auth/login:
+    post:
+      summary: Create an API token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200': { description: Token created }
+        '422': { description: Invalid credentials or validation error }
+  /auth/logout:
+    post:
+      security: [{ bearerAuth: [] }]
+      summary: Revoke the current API token
+      responses:
+        '204': { description: Token revoked }
+  /me:
+    get:
+      security: [{ bearerAuth: [] }]
+      summary: Get the authenticated user
+      responses:
+        '200': { description: Current user }
+  /dashboard:
+    get:
+      security: [{ bearerAuth: [] }]
+      summary: Get visible project and task summary data
+      responses:
+        '200': { description: Dashboard summary }
+  /projects:
+    get:
+      security: [{ bearerAuth: [] }]
+      summary: List accessible projects
+      responses:
+        '200': { description: Paginated project collection }
+    post:
+      security: [{ bearerAuth: [] }]
+      summary: Create a project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ProjectInput' }
+      responses:
+        '201': { description: Project created }
+  /projects/{project}:
+    parameters: [{ $ref: '#/components/parameters/ProjectId' }]
+    get:
+      security: [{ bearerAuth: [] }]
+      summary: Get one accessible project
+      responses: { '200': { description: Project }, '403': { description: Forbidden } }
+    patch:
+      security: [{ bearerAuth: [] }]
+      summary: Update a project owned by the current user
+      responses: { '200': { description: Updated project }, '403': { description: Forbidden } }
+    delete:
+      security: [{ bearerAuth: [] }]
+      summary: Delete a project owned by the current user
+      responses: { '204': { description: Project deleted }, '403': { description: Forbidden } }
+  /projects/{project}/members:
+    parameters: [{ $ref: '#/components/parameters/ProjectId' }]
+    get:
+      security: [{ bearerAuth: [] }]
+      summary: List project members
+      responses: { '200': { description: Project with members } }
+    post:
+      security: [{ bearerAuth: [] }]
+      summary: Add or update a member by registered email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, role]
+              properties:
+                email: { type: string, format: email }
+                role: { type: string, enum: [member, viewer] }
+      responses: { '200': { description: Updated project members } }
+  /projects/{project}/tasks:
+    parameters: [{ $ref: '#/components/parameters/ProjectId' }]
+    get:
+      security: [{ bearerAuth: [] }]
+      summary: List project tasks
+      parameters:
+        - { name: status, in: query, schema: { type: string, enum: [todo, in_progress, done] } }
+        - { name: priority, in: query, schema: { type: string, enum: [low, medium, high] } }
+        - { name: assignee_id, in: query, schema: { type: integer } }
+        - { name: search, in: query, schema: { type: string } }
+      responses: { '200': { description: Paginated task collection } }
+    post:
+      security: [{ bearerAuth: [] }]
+      summary: Create a task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/TaskInput' }
+      responses: { '201': { description: Task created } }
+  /tasks/{task}:
+    parameters: [{ name: task, in: path, required: true, schema: { type: integer } }]
+    get:
+      security: [{ bearerAuth: [] }]
+      summary: Get one task
+      responses: { '200': { description: Task } }
+    patch:
+      security: [{ bearerAuth: [] }]
+      summary: Update a task
+      responses: { '200': { description: Updated task } }
+    delete:
+      security: [{ bearerAuth: [] }]
+      summary: Delete a task as the project owner
+      responses: { '204': { description: Task deleted } }
+  /tasks/{task}/move:
+    post:
+      security: [{ bearerAuth: [] }]
+      summary: Change a task's board status and optional position
+      responses: { '200': { description: Moved task } }
+  /tasks/{task}/activity:
+    get:
+      security: [{ bearerAuth: [] }]
+      summary: List task activity records
+      responses: { '200': { description: Paginated activity collection } }
+components:
+  securitySchemes:
+    bearerAuth: { type: http, scheme: bearer }
+  parameters:
+    ProjectId: { name: project, in: path, required: true, schema: { type: integer } }
+  schemas:
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string, format: password }
+        device_name: { type: string }
+    ProjectInput:
+      type: object
+      required: [name, key]
+      properties:
+        name: { type: string, maxLength: 120 }
+        key: { type: string, pattern: '^[A-Z][A-Z0-9-]*$' }
+        description: { type: string, nullable: true }
+    TaskInput:
+      type: object
+      required: [title]
+      properties:
+        title: { type: string }
+        description: { type: string, nullable: true }
+        status: { type: string, enum: [todo, in_progress, done] }
+        priority: { type: string, enum: [low, medium, high] }
+        assignee_id: { type: integer, nullable: true }
+        due_date: { type: string, format: date, nullable: true }
